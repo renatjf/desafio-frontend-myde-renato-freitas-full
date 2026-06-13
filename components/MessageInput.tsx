@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sendMessage, suggestReply } from "@/lib/api";
-import type { Message } from "@/lib/api";
+import { sendMessage, suggestReply } from "../lib/api";
+import type { Message } from "../lib/api";
 import { Spinner } from "./ui/Spinner";
 
 interface MessageInputProps {
@@ -27,10 +27,15 @@ export function MessageInput({ conversationId }: MessageInputProps) {
     mutationFn: (msg: string) => sendMessage(conversationId, msg),
 
     onMutate: async (newText) => {
-      await queryClient.cancelQueries({ queryKey: ["messages", conversationId] });
+      await queryClient.cancelQueries({
+        queryKey: ["messages", conversationId],
+      });
       await queryClient.cancelQueries({ queryKey: ["conversations"] });
 
-      const previousMessages = queryClient.getQueryData<Message[]>(["messages", conversationId]);
+      const previousMessages = queryClient.getQueryData<Message[]>([
+        "messages",
+        conversationId,
+      ]);
 
       const optimistic: Message = {
         id: `optimistic-${Date.now()}`,
@@ -40,17 +45,20 @@ export function MessageInput({ conversationId }: MessageInputProps) {
         createdAt: new Date().toISOString(),
       };
 
-      queryClient.setQueryData<Message[]>(["messages", conversationId], (old) => [
-        ...(old ?? []),
-        optimistic,
-      ]);
+      queryClient.setQueryData<Message[]>(
+        ["messages", conversationId],
+        (old) => [...(old ?? []), optimistic],
+      );
 
       return { previousMessages };
     },
 
     onError: (_err, _text, context) => {
       if (context?.previousMessages) {
-        queryClient.setQueryData(["messages", conversationId], context.previousMessages);
+        queryClient.setQueryData(
+          ["messages", conversationId],
+          context.previousMessages,
+        );
       }
     },
 
@@ -92,13 +100,19 @@ export function MessageInput({ conversationId }: MessageInputProps) {
   return (
     <div className="bg-[var(--search-bg)] px-3 py-2 border-t border-[var(--border)]">
       {aiError && (
-        <div role="alert" className="mb-2 px-3 py-2 bg-red-50 text-red-600 text-xs rounded-lg border border-red-200">
+        <div
+          role="alert"
+          className="mb-2 px-3 py-2 bg-red-50 text-red-600 text-xs rounded-lg border border-red-200"
+        >
           {aiError}
         </div>
       )}
 
       {sendMutation.isError && (
-        <div role="alert" className="mb-2 px-3 py-2 bg-red-50 text-red-600 text-xs rounded-lg border border-red-200">
+        <div
+          role="alert"
+          className="mb-2 px-3 py-2 bg-red-50 text-red-600 text-xs rounded-lg border border-red-200"
+        >
           Falha ao enviar. Tente novamente.
         </div>
       )}
@@ -120,7 +134,15 @@ export function MessageInput({ conversationId }: MessageInputProps) {
           {suggestMutation.isPending ? (
             <Spinner size="sm" className="border-white border-t-transparent" />
           ) : (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
               <path d="M12 2L2 7l10 5 10-5-10-5z" />
               <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
@@ -149,7 +171,17 @@ export function MessageInput({ conversationId }: MessageInputProps) {
           {sendMutation.isPending ? (
             <Spinner size="sm" className="border-white border-t-transparent" />
           ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
               <path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" />
             </svg>
           )}

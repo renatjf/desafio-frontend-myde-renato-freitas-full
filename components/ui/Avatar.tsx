@@ -1,4 +1,4 @@
-import { getInitials } from "@/lib/utils";
+import { getInitials } from "../../lib/utils";
 
 interface AvatarProps {
   name: string;

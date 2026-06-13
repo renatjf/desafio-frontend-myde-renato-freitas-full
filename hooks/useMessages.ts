@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMessages } from "@/lib/api";
+import { getMessages } from "../lib/api";
 
 export function useMessages(conversationId: string) {
   return useQuery({

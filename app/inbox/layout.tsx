@@ -1,5 +1,5 @@
-import { ConversationList } from "@/components/ConversationList";
-import { MobileInboxShell } from "@/components/MobileInboxShell";
+import { ConversationList } from "../../components/ConversationList";
+import { MobileInboxShell } from "../../components/MobileInboxShell";
 
 export default function InboxLayout({
   children,

@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import type { Conversation } from "@/lib/api";
+import type { Conversation } from "../lib/api";
 import { Avatar } from "./ui/Avatar";
-import { formatConversationTime, normalizeSearch } from "@/lib/utils";
+import { formatConversationTime, normalizeSearch } from "../lib/utils";
 
 interface ConversationItemProps {
   conversation: Conversation;
   searchQuery: string;
 }
 
-export function ConversationItem({ conversation, searchQuery }: ConversationItemProps) {
+export function ConversationItem({
+  conversation,
+  searchQuery,
+}: ConversationItemProps) {
   const params = useParams();
   const isActive = params?.id === conversation.id;
 
@@ -41,7 +44,11 @@ export function ConversationItem({ conversation, searchQuery }: ConversationItem
       aria-current={isActive ? "page" : undefined}
       aria-label={`Conversa com ${conversation.contactName}${conversation.unread > 0 ? `, ${conversation.unread} não lidas` : ""}`}
     >
-      <Avatar name={conversation.contactName} color={conversation.avatarColor} size="md" />
+      <Avatar
+        name={conversation.contactName}
+        color={conversation.avatarColor}
+        size="md"
+      />
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">

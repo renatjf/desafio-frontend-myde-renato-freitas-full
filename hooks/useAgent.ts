@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "@/lib/api";
+import { getMe } from "../lib/api";
 
 export function useAgent() {
   return useQuery({

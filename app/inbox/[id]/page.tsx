@@ -1,5 +1,5 @@
-import { MobileChatWrapper } from "@/components/MobileChatWrapper";
-import { ChatArea } from "@/components/ChatArea";
+import { MobileChatWrapper } from "../../../components/MobileChatWrapper";
+import { ChatArea } from "../../../components/ChatArea";
 
 interface Props {
   params: Promise<{ id: string }>;

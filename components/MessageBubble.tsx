@@ -1,5 +1,5 @@
-import type { Message } from "@/lib/api";
-import { formatMessageTime } from "@/lib/utils";
+import type { Message } from "../lib/api";
+import { formatMessageTime } from "../lib/utils";
 import { MessageStatus } from "./ui/MessageStatus";
 
 interface MessageBubbleProps {
@@ -7,7 +7,10 @@ interface MessageBubbleProps {
   isOptimistic?: boolean;
 }
 
-export function MessageBubble({ message, isOptimistic = false }: MessageBubbleProps) {
+export function MessageBubble({
+  message,
+  isOptimistic = false,
+}: MessageBubbleProps) {
   const isOut = message.direction === "out";
 
   return (
@@ -25,9 +28,13 @@ export function MessageBubble({ message, isOptimistic = false }: MessageBubblePr
           boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
         }}
       >
-        <p className="leading-relaxed break-words whitespace-pre-wrap">{message.body}</p>
+        <p className="leading-relaxed break-words whitespace-pre-wrap">
+          {message.body}
+        </p>
 
-        <div className={`flex items-center gap-1 mt-1 ${isOut ? "justify-end" : "justify-end"}`}>
+        <div
+          className={`flex items-center gap-1 mt-1 ${isOut ? "justify-end" : "justify-end"}`}
+        >
           <time
             dateTime={message.createdAt}
             className="text-[10px] text-[var(--muted)] leading-none"
