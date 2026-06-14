@@ -150,6 +150,10 @@ A solução correta usa:
 
 Adicionada via `metadata.openGraph` e `metadata.twitter` no `app/layout.tsx` do Next.js 15, apontando para `/og-image.jpg` em `/public`. Isso garante que a imagem apareça ao compartilhar o link no WhatsApp, Twitter/X e LinkedIn.
 
+O .env para funcionar o openGraph deve ficar assim:
+NEXT_PUBLIC_API_URL=https://8tymn68hp9.execute-api.us-east-1.amazonaws.com/
+NEXT_PUBLIC_SITE_URL=https://desafio-frontend-myde-full.netlify.app
+
 ---
 
 ## O que faria diferente com mais tempo
