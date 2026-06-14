@@ -170,5 +170,5 @@ NEXT_PUBLIC_SITE_URL=https://desafio-frontend-myde-full.netlify.app
 
 ## Links
 
-- 🔗 **Demo em produção**: https://desafio-front-myde-next.netlify.app/
+- 🔗 **Demo em produção**: https://desafio-frontend-myde-full.netlify.app
 - 📦 **Repositório**: https://github.com/renatjf/desafio-frontend-myde-renato-freitas-full
