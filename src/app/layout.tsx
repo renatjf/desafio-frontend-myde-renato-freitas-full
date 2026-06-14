@@ -1,58 +1,44 @@
-import Provider from "@/providers/ReactQueryProvider";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import "./globals.css";
 
-export default function RootLayout({ children }: any) {
+export const metadata = {
+  title: "Inbox WhatsApp — MyDE Atendimento",
+  description:
+    "Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos.",
+  metadataBase: new URL("https://desafio-frontend-myde-full.netlify.app"),
+  openGraph: {
+    title: "Inbox WhatsApp — MyDE Atendimento",
+    description:
+      "Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos.",
+    url: "/",
+    siteName: "MyDE Inbox",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Inbox WhatsApp — MyDE Atendimento",
+    description:
+      "Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos.",
+    images: ["/og-image.jpg"],
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <head>
-        <title>Inbox WhatsApp — MyDE Atendimento</title>
-        <meta
-          name="description"
-          content="Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos."
-        />
-        <meta name="robots" content="index,follow" />
-        <link rel="canonical" href="/" />
-
-        {/* Open Graph */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Inbox WhatsApp — MyDE Atendimento" />
-        <meta
-          property="og:description"
-          content="Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos."
-        />
-        <meta property="og:image" content="/og-image.jpg" />
-        <meta property="og:url" content="/" />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Inbox WhatsApp — MyDE Atendimento"
-        />
-        <meta
-          name="twitter:description"
-          content="Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos."
-        />
-
-        {/* Structured data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "MyDE Inbox",
-              url: "/",
-              description:
-                "Interface de atendimento via WhatsApp para gerenciamento de conversas.",
-            }),
-          }}
-        />
-      </head>
+    <html lang="pt-BR">
       <body suppressHydrationWarning>
-        <Provider>
-          <div suppressHydrationWarning>{children}</div>
-        </Provider>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );
