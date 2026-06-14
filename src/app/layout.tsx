@@ -1,32 +1,48 @@
+import type { Metadata } from "next";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import "./globals.css";
 
-export const metadata = {
-  title: "Inbox WhatsApp — MyDE Atendimento",
+const SITE_URL = "https://desafio-frontend-myde-full.netlify.app";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+
+  title: {
+    default: "Inbox WhatsApp — MyDE Atendimento",
+    template: "%s | MyDE Inbox",
+  },
+
   description:
     "Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos.",
-  metadataBase: new URL("https://desafio-frontend-myde-full.netlify.app"),
+
   openGraph: {
     title: "Inbox WhatsApp — MyDE Atendimento",
     description:
       "Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos.",
-    url: "/",
+    url: SITE_URL,
     siteName: "MyDE Inbox",
     images: [
       {
-        url: "/og-image.jpg",
+        url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
+        alt: "Preview do sistema de atendimento MyDE",
       },
     ],
+    locale: "pt_BR",
     type: "website",
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Inbox WhatsApp — MyDE Atendimento",
     description:
       "Interface de atendimento via WhatsApp — visualize conversas, envie respostas e gerencie atendimentos.",
-    images: ["/og-image.jpg"],
+    images: [`${SITE_URL}/og-image.jpg`],
+  },
+
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
@@ -36,8 +52,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
-      <body suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
