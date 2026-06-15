@@ -48,7 +48,7 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
   const grouped = useMemo(() => groupByDate(messages ?? []), [messages]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current?.scrollIntoView();
   }, [messages?.length]);
 
   return (
@@ -105,7 +105,7 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
       </header>
 
       <div
-        className="flex-1 overflow-y-auto px-3 py-4 min-h-0"
+        className="flex-1 overflow-y-auto min-h-0"
         style={{
           backgroundImage:
             "radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px)",

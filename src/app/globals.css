@@ -34,7 +34,6 @@ body {
     #eef2f7;
 }
 
-/* Make root take full height and avoid global scrolling; scroll inside panels instead */
 html,
 body,
 #__next {
