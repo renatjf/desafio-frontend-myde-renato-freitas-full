@@ -20,7 +20,9 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: "MyDE Inbox",
     type: "website",
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "MyDE Atendimento" }],
+    images: [
+      { url: OG_IMAGE, width: 1200, height: 630, alt: "MyDE Atendimento" },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -31,7 +33,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt-BR">
       <body suppressHydrationWarning>
