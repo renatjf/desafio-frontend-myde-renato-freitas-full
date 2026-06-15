@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMessages } from "../hooks/useMessages";
 import { useConversations } from "../hooks/useConversations";
@@ -41,15 +41,41 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
     isError,
     refetch,
   } = useMessages(conversationId);
+
   const { data: conversations } = useConversations();
+
+  const containerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  const [isAtBottom, setIsAtBottom] = useState(true);
 
   const conversation = conversations?.find((c) => c.id === conversationId);
   const grouped = useMemo(() => groupByDate(messages ?? []), [messages]);
 
+  // 🔍 Detecta posição do scroll
   useEffect(() => {
-    bottomRef.current?.scrollIntoView();
-  }, [messages?.length]);
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const threshold = 80;
+
+      const isBottom =
+        el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+
+      setIsAtBottom(isBottom);
+    };
+
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // 🧠 Auto scroll inteligente
+  useEffect(() => {
+    if (isAtBottom) {
+      bottomRef.current?.scrollIntoView();
+    }
+  }, [messages?.length, isAtBottom]);
 
   return (
     <section
@@ -62,7 +88,7 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
           <button
             onClick={() => router.push("/inbox")}
             aria-label="Voltar"
-            className="mr-1 text-[var(--accent)] hover:text-[var(--accent-dark)] transition-colors"
+            className="mr-1 text-[var(--accent)]"
           >
             <svg
               width="22"
@@ -73,7 +99,6 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              aria-hidden="true"
             >
               <path d="M19 12H5M12 5l-7 7 7 7" />
             </svg>
@@ -98,13 +123,14 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
           </>
         ) : (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[var(--border)] animate-pulse" />
-            <div className="h-4 w-32 bg-[var(--border)] rounded animate-pulse" />
+            <div className="w-10 h-10 rounded-full bg-[var(--border)]" />
+            <div className="h-4 w-32 bg-[var(--border)] rounded" />
           </div>
         )}
       </header>
 
       <div
+        ref={containerRef}
         className="flex-1 overflow-y-auto min-h-0"
         style={{
           backgroundImage:
@@ -112,9 +138,6 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
           backgroundSize: "20px 20px",
           backgroundColor: "#e5ddd5",
         }}
-        role="log"
-        aria-live="polite"
-        aria-label="Histórico de mensagens"
       >
         {isLoading && (
           <div className="flex justify-center pt-12">
@@ -152,8 +175,28 @@ export function ChatArea({ conversationId, isMobile = false }: ChatAreaProps) {
             </div>
           ))}
 
-        <div ref={bottomRef} aria-hidden="true" />
+        <div ref={bottomRef} />
       </div>
+
+      {!isAtBottom && (
+        <button
+          onClick={() => {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="
+      absolute bottom-24 right-4 z-50
+      w-12 h-12
+      flex items-center justify-center
+      rounded-full
+      bg-green-500 text-white
+      shadow-xl
+      transition-transform duration-200
+      hover:scale-110 active:scale-95
+    "
+        >
+          ↓
+        </button>
+      )}
 
       <div className="flex-shrink-0">
         <MessageInput conversationId={conversationId} />
